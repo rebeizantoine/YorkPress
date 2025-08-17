@@ -1,16 +1,23 @@
 import React, { useState, ChangeEvent } from "react";
 import LayoutCard from "./LayoutCard";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = () => {
-    // Temporary: For now just log the input
-    console.log("Email:", email, "Password:", password);
-    alert("Login clicked! (Functionality not implemented yet)");
+    const savedEmail = localStorage.getItem("userEmail");
+    const savedPassword = localStorage.getItem("userPassword");
+
+    if (email === savedEmail && password === savedPassword) {
+      alert("Login successful!");
+      navigate("/todo");
+    } else {
+      alert("Invalid email or password");
+    }
   };
 
   return (
@@ -34,7 +41,7 @@ const Login: React.FC = () => {
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setEmail(e.target.value)
             }
-            className="pl-[30px]  text-light placeholder:text-muted focus:outline-none w-[500px] h-[70px] bg-[#2E3239] rounded-[10px]"
+            className="pl-[30px] text-light placeholder:text-muted focus:outline-none w-[500px] h-[70px] bg-[#2E3239] rounded-[10px]"
           />
           <input
             type="password"
@@ -43,22 +50,19 @@ const Login: React.FC = () => {
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setPassword(e.target.value)
             }
-            className="pl-[30px]  text-light placeholder:text-muted focus:outline-none w-[500px] h-[70px] bg-[#2E3239] rounded-[10px]"
+            className="pl-[30px] text-light placeholder:text-muted focus:outline-none w-[500px] h-[70px] bg-[#2E3239] rounded-[10px]"
           />
         </div>
-        <p className=" text-muted opacity-50 text-[16px] tracking-[0%] font-normal mb-4  ">
-          Don't have an account yet?{" "}
-          <Link
-            to="/signup"
-            className="text-muted opacity-50 text-[16px] tracking-[0%] font-normal underline "
-          >
+        <p className="text-muted opacity-50 text-[16px] font-normal mb-4">
+          Don’t have an account yet?{" "}
+          <Link to="/signup" className="underline">
             Signup
           </Link>
         </p>
         <div className="w-full flex justify-center">
           <button
             onClick={handleLogin}
-            className="mt-2 w-[300px] rounded-[9px] bg-[#F4F6FA] text-[#2E3239] py-3  hover:bg-gray-200 transition"
+            className="mt-2 w-[300px] rounded-[9px] bg-[#F4F6FA] text-[#2E3239] py-3 hover:bg-gray-200 transition"
           >
             Login
           </button>

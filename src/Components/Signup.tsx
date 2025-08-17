@@ -1,20 +1,31 @@
 import React, { useState, ChangeEvent } from "react";
 import LayoutCard from "./LayoutCard";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSignup = () => {
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+    if (!email || !password || !confirmPassword) {
+      alert("Please fill in all fields");
       return;
     }
-    console.log("Email:", email, "Password:", password);
-    alert("Sign Up clicked! (Functionality not implemented yet)");
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    // Save to localStorage
+    localStorage.setItem("userEmail", email);
+    localStorage.setItem("userPassword", password);
+
+    alert("Signup successful! You can now login.");
+    navigate("/login");
   };
 
   return (
